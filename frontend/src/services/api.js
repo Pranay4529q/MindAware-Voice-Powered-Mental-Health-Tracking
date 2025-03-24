@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Create base API instance
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000",
+  baseURL: process.env.REACT_APP_API_URL || "https://mindaware-backend.onrender.com",
 });
 
 // Add token to request headers if it exists
