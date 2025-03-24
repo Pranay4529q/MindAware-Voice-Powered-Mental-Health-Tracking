@@ -78,7 +78,7 @@ def create_app(config_name='dev'):
     app.config['JWT_SECRET_KEY'] = 'topsecret'
     
     # Enable CORS for all routes
-    CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins
+    CORS(app, resources={r"/*": {"origins": "https://mentalhealth-pkam.onrender.com"}}, supports_credentials=True)
     
     # Initialize models and utilities
     from models import init_app as init_models
