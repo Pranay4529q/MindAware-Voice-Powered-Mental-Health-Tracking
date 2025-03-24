@@ -1,3 +1,4 @@
+waitress
 audioread==3.0.1
 blinker==1.9.0
 certifi==2025.1.31
