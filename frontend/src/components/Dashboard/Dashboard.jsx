@@ -12,7 +12,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/history", {
+        const response = await fetch("https://mindaware-backend.onrender.com/api/history", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
