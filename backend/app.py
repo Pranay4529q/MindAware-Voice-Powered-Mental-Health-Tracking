@@ -122,50 +122,54 @@ import os
 import torch
 from flask import Flask
 from flask_cors import CORS
+from dotenv import load_dotenv
 
 from config import get_config
 from model.load_model import load_model
 
+# Load environment variables from .env file
+load_dotenv()
+
 def create_app(config_name='dev'):
     """Create and configure the Flask application."""
     app = Flask(__name__)
-    
-    # Load configuration
+
+    # Load config
     app.config.from_object(get_config())
-    
-    # MongoDB Configuration
-    app.config["MONGO_URI"] = "mongodb://localhost:27017/depression_analysis"
-    app.config['JWT_SECRET_KEY'] = 'topsecret'
-    
-    # Enable CORS for all routes
-    CORS(app, resources={r"/*": {"origins": "https://mentalhealth-pkam.onrender.com"}}, supports_credentials=True)
-    
-    # Initialize models and utilities
+
+    # Set environment variables
+    app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+    app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
+    app.config['DEBUG'] = os.getenv("DEBUG", "False").lower() == "true"
+
+    # CORS
+    CORS(app, resources={r"/*": {"origins": ["https://mentalhealth-pkam.onrender.com", "http://localhost:3000"]}}, supports_credentials=True)
+
+    # Initialize models and utils
     from models import init_app as init_models
     init_models(app)
-    
+
     from utils import init_app as init_utils
     init_utils(app)
-    
-    # Load AI Model
+
+    # Load model
     app.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     try:
         app.model = load_model(app.config['MODEL_PATH'], app.device)
-        app.model.eval()  # Set model to evaluation mode
+        app.model.eval()
         app.logger.info(f"Model loaded successfully from {app.config['MODEL_PATH']}")
     except Exception as e:
         app.logger.error(f"Failed to load model: {str(e)}")
-    
+
     # Initialize routes
     from routes import init_app as init_routes
     init_routes(app)
-    
+
     return app
 
-# Create app instance
 app = create_app()
 
-# Error Handlers
+# Error handlers
 @app.errorhandler(404)
 def not_found(error):
     """Handle 404 errors."""
@@ -178,4 +182,4 @@ def server_error(error):
 
 if __name__ == '__main__':
     # Run app
-    app.run(host='0.0.0.0', port=5000, debug=app.config.get('DEBUG', False))
+    app.run(debug=app.config['DEBUG'])
