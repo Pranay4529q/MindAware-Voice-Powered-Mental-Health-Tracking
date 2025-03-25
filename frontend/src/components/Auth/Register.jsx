@@ -22,7 +22,8 @@ const Register = () => {
     setError("");
 
     try {
-      const response = await fetch("https://mindaware-backend.onrender.com/api/register", {
+      const base_url = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${base_url}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),

@@ -12,7 +12,8 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("https://mindaware-backend.onrender.com/api/profile", {
+        const base_url = process.env.REACT_APP_API_URL;
+        const response = await fetch(`${base_url}/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +42,8 @@ const UserProfile = () => {
     setSuccess("");
 
     try {
-      const response = await fetch("https://mindaware-backend.onrender.com/api/profile", {
+      const base_url = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${base_url}/api/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

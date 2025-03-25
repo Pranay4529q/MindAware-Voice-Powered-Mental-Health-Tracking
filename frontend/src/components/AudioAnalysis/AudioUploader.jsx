@@ -29,8 +29,8 @@ const AudioUploader = ({
     try {
       const formData = new FormData();
       formData.append("audio", selectedFile);
-
-      const response = await fetch("https://mindaware-backend.onrender.com/api/predict", {
+      const base_url = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${base_url}/api/predict`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

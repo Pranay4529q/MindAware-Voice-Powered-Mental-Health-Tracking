@@ -16,7 +16,8 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await fetch("https://mindaware-backend.onrender.com/api/login", {
+      const base_url = process.env.REACT_APP_API_URL;
+      const response = await fetch(`${base_url}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),

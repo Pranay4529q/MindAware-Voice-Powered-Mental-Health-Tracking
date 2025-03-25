@@ -12,7 +12,8 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await fetch("https://mindaware-backend.onrender.com/api/history", {
+        const base_url = process.env.REACT_APP_API_URL;
+        const response = await fetch(`${base_url}/api/history`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
