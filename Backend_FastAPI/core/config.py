@@ -16,8 +16,7 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     jwt_expire_hours: int = 2
     
-    # Database
-    mongo_uri: str = "mongodb+srv://pranay:onpuBUlMEiKGNHtr@ecommerce.51dqc.mongodb.net/mentalhealth_analysis?retryWrites=true&w=majority&appName=Ecommerce"
+    
     
     # File Upload
     allowed_extensions: List[str] = ["wav", "mp3", "ogg"]
